@@ -8,9 +8,11 @@ ifstream f("input.in");
 int main()
 {
     int a[2001];
-    int s=0;
+    int A[2001];
+    int sum=0;
     int n=0;
     int i=1;
+    int N=0;
 
     while(f>>a[i])
     {
@@ -18,12 +20,19 @@ int main()
        n++;
     }
 
-   for(int i=1;i<n;i++)
+   for(int i=1;i<=n;i++)
    {
-       if(a[i+1]>a[i])
-         s++;
+       A[i]=a[i]+a[i+1]+a[i+2];
+       N++;
+
    }
 
-   cout<<s;
+   for(int i=1;i<=N;i++)
+   {
+       if(A[i+1]>A[i])
+          sum++;
+   }
+
+   cout<<sum;
 
 }
