@@ -1,81 +1,153 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <cmath>
 
 using namespace std;
 
 ifstream f("input.in");
 
-int a[12],zero[12],one[12],gamma[12],epsilon[12];
-int G,E;
+char s[1001][13];
+int nr;
+int zero,one;
+int oxi[13], co2[13];
+int o,c;
 
-int main()
+void read()
 {
-    long long n;
-    for(int i=1; i<=1000; i++)
+    while(f.getline(s[nr],13))
+        nr++;
+}
+
+
+int valid(int j, int i)
+{
+    for(int c=0; c<j; c++)
     {
-        f>>n;
-        for(int i=12; i>=1; i--)
+        if(oxi[c]!=s[i][c]-'0')
+            return 0;
+    }
+    return 1;
+
+}
+
+
+void buildoxi(int i)
+{
+    if(one==1 && zero==0)
+        oxi[i]=0;
+    else
+     if(zero==1 && one==0)
+        oxi[i]=1;
+else{
+
+    if(zero>one)
+        oxi[i]=0;
+    else
+        oxi[i]=1;
+}
+}
+
+
+void oxygen()
+{
+
+    for(int j=0; j<12; j++)
+    {
+        for(int i=0; i<1000; i++)
         {
-            a[i]=n%10;
 
-            if(a[i]==0)
+            if(j==0 || valid(j,i))
             {
-                zero[i]=zero[i]+1;
+                if(s[i][j]=='0')
+                    zero++;
+                else
+                    one++;
+
             }
 
-            if(a[i]==1)
-            {
-                one[i]=one[i]+1;
-            }
-
-            n=n/10;
         }
 
+        buildoxi(j);
+
+
+        zero=0;
+        one=0;
     }
 
+}
 
-    for(int i=1;i<=12;i++)
+int valid2(int i, int j)
+{
+    for(int c=0; c<j; c++)
+        if(co2[c]!=s[i][c]-'0')
+            return 0;
+    return 1;
+
+}
+
+void buildco2(int i)
+{
+    if(one==1 && zero==0)
+        co2[i]=1;
+    else
+     if(zero==1 && one==0)
+        co2[i]=0;
+
+    else
     {
-        if(zero[i]>one[i])
-            gamma[i]=0;
+        if(one<zero)
+            co2[i]=1;
         else
-            gamma[i]=1;
+            co2[i]=0;
     }
-
-    for(int i=1;i<=12;i++)
-    {
-        if(gamma[i]==0)
-            epsilon[i]=1;
-        else
-            epsilon[i]=0;
-    }
-
-
-    int putere=0;
-    E=0;
-    for(int i=12;i>=1;i--)
-    {
-        E=E+(epsilon[i]*pow(2, putere));
-        putere++;
-    }
-
-    putere=0;
-    G=0;
-    for(int i=12;i>=1;i--)
-    {
-        G=G+(gamma[i]*pow(2, putere));
-        putere++;
-    }
-
-    cout<<G<<E;
 
 
 }
 
-/*
-011101101110
-010110001101
-100111000110
-*/
+void carbondioxide()
+{
+
+    for(int j=0; j<12; j++)
+    {
+        for(int i=0; i<1001; i++)
+        {
+            if(j==0 || valid2(i,j))
+            {
+                if(s[i][j]=='0')
+                    zero++;
+                else
+                    one++;
+            }
+        }
+        buildco2(j);
+        zero=0;
+        one=0;
+
+    }
+
+}
+
+
+void BinaryToDecimal()
+{
+    int f=1;
+    for(int i=11; i>=0; i--)
+    {
+        o=o+f*oxi[i];
+        c=c+f*co2[i];
+        f=f*2;
+    }
+
+
+}
+
+int main()
+{
+    read();
+    oxygen();
+    carbondioxide();
+    BinaryToDecimal();
+
+    cout<<o*c;
+
+}
