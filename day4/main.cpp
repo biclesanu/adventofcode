@@ -31,7 +31,7 @@ void readbingonr()
     for(int i=0; i<j; i++)
         cout<<nrb[i]<<" ";
 }
-
+/*
 void readarrays()
 {
 
@@ -48,10 +48,10 @@ void readarrays()
 
 }
 
-
+*/
 int main()
 {
     readbingonr();
-    readarrays();
+//    readarrays();
 
 }
