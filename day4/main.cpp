@@ -12,7 +12,7 @@ char sep[]=",";
 int nr=1;
 int nrb[100];
 
-
+///muhahah i'm evil this changes everything
 void readbingonr()
 {
     int j=0;
